@@ -14,6 +14,22 @@ session_start();
     <link rel="stylesheet" href="../Css/styles.css?v=1.5">
     <script src="https://kit.fontawesome.com/8d30e20f45.js" crossorigin="anonymous"></script>
     <link rel="icon" href="../imgs/SVG/icon.svg">
+
+    <script>
+        function criarExercicio() {
+            var nomeExercicio = document.getElementById("nomeExercicio").value;
+            var zonaMuscular = document.getElementById("zonaMuscular").value;
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    this.responseText;
+                }
+            };
+            xhttp.open("GET", "BaseDados/Exercicios/criarExercicio.php?nomeExercicio=" + nomeExercicio + "&zonaMuscular=" + zonaMuscular, true);
+            xhttp.send();
+        }
+    </script>
 </head>
 
 <body>
@@ -47,7 +63,7 @@ session_start();
             </div>
         </div>
         <div class="container containerList mt-3">
-            <div class="row ">
+            <div class="row">
                 <div class="col-xl-4">
                     <div class="mt-3">Exercício 2</div>
                 </div>
@@ -74,17 +90,15 @@ session_start();
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="BaseDados/Exercicios/criarExercicio.php">
-                        <label for="nomeAulaGrupo">Nome Exercício</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="nomeExercicio" id="nomeExercicio" placeholder="nome exercício">
-                        </div>
-                        <label for="zonaMuscular">Zona Muscular</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="zonaMuscular" id="zonaMuscular" placeholder="zona muscular">
-                        </div>
-                        <br><button type="submit" action="../../exercicios.php" id="btnIniciarSessao" class="btn btnInicio btnIniciarSessao btn-lg w-100">Criar</button>
-                    </form>
+                    <label for="nomeAulaGrupo">Nome Exercício</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="nomeExercicio" placeholder="nome exercício">
+                    </div>
+                    <label for="zonaMuscular">Zona Muscular</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="zonaMuscular" placeholder="zona muscular">
+                    </div>
+                    <br><button type="submit" onclick="criarExercicio()" class="btn btnPrincipal btn-lg w-100">Criar</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btnClose" data-dismiss="modal">Close</button>

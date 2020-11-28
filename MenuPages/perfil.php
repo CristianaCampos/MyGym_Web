@@ -22,11 +22,15 @@ session_start();
                 document.getElementById("buttonDadosCorporais").style.borderRight = "1px solid white";
                 document.getElementById("contaSelection").style.display = "block";
                 document.getElementById("dadosCorporaisSelection").style.display = "none";
+                disableInputsConta();
+                carregarDadosConta();
             } else {
                 document.getElementById(button).style.borderRight = "2px solid black";
                 document.getElementById("buttonConta").style.borderRight = "1px solid white";
                 document.getElementById("dadosCorporaisSelection").style.display = "block";
                 document.getElementById("contaSelection").style.display = "none";
+                disableInputsDadosCorporais();
+                carregarDadosCorporais();
             }
         }
 
@@ -93,7 +97,7 @@ session_start();
                     document.getElementById("peso").value = this.responseText;
                 }
             };
-            xhttp.open("GET", "BaseDados/Perfil/buscarDadosConta.php?var=peso", true);
+            xhttp.open("GET", "BaseDados/Perfil/buscarDadosCorporais.php?var=peso", true);
             xhttp.send();
         }
 
@@ -104,7 +108,7 @@ session_start();
                     document.getElementById("altura").value = this.responseText;
                 }
             };
-            xhttp.open("GET", "BaseDados/Perfil/buscarDadosConta.php?var=altura", true);
+            xhttp.open("GET", "BaseDados/Perfil/buscarDadosCorporais.php?var=altura", true);
             xhttp.send();
         }
 
@@ -115,7 +119,7 @@ session_start();
                     document.getElementById("mm").value = this.responseText;
                 }
             };
-            xhttp.open("GET", "BaseDados/Perfil/buscarDadosConta.php?var=mm", true);
+            xhttp.open("GET", "BaseDados/Perfil/buscarDadosCorporais.php?var=mm", true);
             xhttp.send();
         }
 
@@ -126,7 +130,7 @@ session_start();
                     document.getElementById("mg").value = this.responseText;
                 }
             };
-            xhttp.open("GET", "BaseDados/Perfil/buscarDadosConta.php?var=mg", true);
+            xhttp.open("GET", "BaseDados/Perfil/buscarDadosCorporais.php?var=mg", true);
             xhttp.send();
         }
 
@@ -137,21 +141,36 @@ session_start();
                     document.getElementById("mh").value = this.responseText;
                 }
             };
-            xhttp.open("GET", "BaseDados/Perfil/buscarDadosConta.php?var=mh", true);
+            xhttp.open("GET", "BaseDados/Perfil/buscarDadosCorporais.php?var=mh", true);
             xhttp.send();
         }
 
-        function carregarTodos() {
+        function carregarIMC() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("imc").value = this.responseText;
+                }
+            };
+            xhttp.open("GET", "BaseDados/Perfil/buscarDadosCorporais.php?var=imc", true);
+            xhttp.send();
+        }
+
+        function carregarDadosConta() {
             carregarNome();
             carregarNomeUtilizador();
             carregarEmail();
             carregarContacto();
             carregarPassword();
+        }
+
+        function carregarDadosCorporais() {
             carregarPeso();
             carregarAltura();
             carregarMM();
             carregarMG();
             carregarMH();
+            carregarIMC();
         }
 
         function enableInputs() {
@@ -164,7 +183,8 @@ session_start();
             document.getElementById("mg").disabled = false;
             document.getElementById("mm").disabled = false;
             document.getElementById("mh").disabled = false;
-            document.getElementById("btnAtualizar").disabled = false;
+            document.getElementById("btnAtualizarDadosConta").disabled = false;
+            document.getElementById("btnAtualizarDadosCorporais").disabled = false;
         }
 
         function disableInputsConta() {
@@ -172,7 +192,7 @@ session_start();
             document.getElementById("email").disabled = true;
             document.getElementById("contacto").disabled = true;
             document.getElementById("password").disabled = true;
-            document.getElementById("btnAtualizar").disabled = true;
+            document.getElementById("btnAtualizarDadosConta").disabled = true;
         }
 
         function disableInputsDadosCorporais() {
@@ -181,12 +201,66 @@ session_start();
             document.getElementById("mg").disabled = true;
             document.getElementById("mm").disabled = true;
             document.getElementById("mh").disabled = true;
-            document.getElementById("btnAtualizar").disabled = true;
+            document.getElementById("btnAtualizarDadosCorporais").disabled = true;
+        }
+
+        function atualizarDadosConta() {
+            var nome = document.getElementById("nome").value;
+            var email = document.getElementById("email").value;
+            var contacto = document.getElementById("contacto").value;
+            var password = document.getElementById("password").value;
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    this.responseText;
+                }
+            };
+            xhttp.open("GET", "BaseDados/Perfil/atualizarDadosConta.php?nome=" + nome + "&email=" + email + "&contacto=" + contacto + "&password=" + password, true);
+            xhttp.send();
+            disableInputsConta();
+        }
+
+        function atualizarDadosCorporais() {
+            var peso = document.getElementById("peso").value;
+            var altura = document.getElementById("altura").value;
+            var mm = document.getElementById("mm").value;
+            var mg = document.getElementById("mg").value;
+            var mh = document.getElementById("mh").value;
+            var imc = document.getElementById("imc").value;
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    this.responseText;
+                }
+            };
+            xhttp.open("GET", "BaseDados/Perfil/atualizarDadosCorporais.php?peso=" + peso + "&altura=" + altura + "&mm=" + mm + "&mg=" + mg + "&mh=" + mh + "&imc=" + imc, true);
+            xhttp.send();
+            disableInputsDadosCorporais();
+        }
+
+        function calcularIMC() {
+            var peso = document.getElementById("peso").value;
+            var altura = document.getElementById("altura").value;
+            var imc = 0;
+            imc = peso / (altura * altura) * 10000;
+            document.getElementById("imc").style.color = "white";
+
+
+            if (imc < 18.5 || imc > 25) {
+                document.getElementById("imc").style.backgroundColor = "red";
+                document.getElementById("imc").value = imc.toFixed(2);
+            } else {
+                document.getElementById("imc").style.backgroundColor = "green";
+                document.getElementById("imc").value = imc.toFixed(2);
+            }
+
         }
     </script>
 </head>
 
-<body onload="setSelected('buttonConta'); carregarTodos(); disableInputsConta();">
+<body onload="setSelected('buttonDadosCorporais'); carregarDadosCorporais(); disableInputsConta(); disableInputsDadosCorporais()">
     <?php
     include '../Navbar/menu.php'; ?>
 
@@ -214,70 +288,66 @@ session_start();
                     </div>
                 </div>
                 <div id="contaSelection" style="display: none;">
-                    <form method="POST" action="BaseDados/Perfil/atualizarDadosConta.php">
-                        <div class="row mt-4">
-                            <div class="col-sm w-50">
-                                <label>Nome</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="nome">
-                                </div>
-                                <label>Email</label>
-                                <div class="input-group mb-3">
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="email">
-                                </div>
+                    <div class="row mt-4">
+                        <div class="col-sm w-50">
+                            <label>Nome</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="nome" placeholder="nome">
                             </div>
-                            <div class="col-sm">
-                                <label>Contacto</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="contacto" name="contacto" placeholder="contacto">
-                                </div>
-                                <label>Password</label>
-                                <div class="input-group mb-3">
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="password">
-                                </div>
+                            <label>Email</label>
+                            <div class="input-group mb-3">
+                                <input type="email" class="form-control" id="email" placeholder="email">
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" id="btnAtualizar" class="btn btnInicio btnIniciarSessao w-50">Atualizar</button>
+                        <div class="col-sm">
+                            <label>Contacto</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="contacto" placeholder="contacto">
+                            </div>
+                            <label>Password</label>
+                            <div class="input-group mb-3">
+                                <input type="password" class="form-control" id="password" placeholder="password">
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" onclick="atualizarDadosConta()" id="btnAtualizarDadosConta" class="btn btnPrincipal w-50">Atualizar</button>
+                    </div>
                 </div>
                 <div id="dadosCorporaisSelection" style="display: none;">
-                    <form method="POST" action="BaseDados/Perfil/atualizarDadosCorporais.php">
-                        <div class="row mt-4">
-                            <div class="col-sm w-50">
-                                <label>Peso (kg)</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="peso" name="peso" placeholder="peso">
-                                </div>
-                                <label>Altura (cm)</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="altura" name="altura" placeholder="altura">
-                                </div>
-                                <label>Massa Hídrica</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="mh" name="mh" placeholder="massa hidrica">
-                                </div>
+                    <div class="row mt-4">
+                        <div class="col-sm w-50">
+                            <label>Peso (kg)</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="peso" placeholder="peso">
                             </div>
-                            <div class="col-sm">
-                                <label>Massa Gorda</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="mg" name="mg" placeholder="massa gorda">
-                                </div>
-                                <label>Massa Magra</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="mm" name="mm" placeholder="massa magra">
-                                </div>
-                                <label>Índice de Massa Corporal</label>
-                                <div class="input-group mb-3">
-                                    <input disabled type="text" class="form-control" id="imc" name="imc" placeholder="IMC">
-                                </div>
+                            <label>Altura (cm)</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="altura" placeholder="altura">
+                            </div>
+                            <label>Massa Hídrica</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="mh" placeholder="massa hidrica">
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" id="btnAtualizar" class="btn btnInicio btnIniciarSessao w-50">Atualizar</button>
+                        <div class="col-sm">
+                            <label>Massa Gorda</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="mg" placeholder="massa gorda">
+                            </div>
+                            <label>Massa Magra</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="mm" placeholder="massa magra">
+                            </div>
+                            <label>Índice de Massa Corporal</label>
+                            <div class="input-group mb-3">
+                                <input disabled type="text" class="form-control" id="imc" placeholder="IMC">
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" onclick="calcularIMC(); atualizarDadosCorporais();" id="btnAtualizarDadosCorporais" class="btn btnPrincipal w-50">Atualizar</button>
+                    </div>
                 </div>
             </div>
         </div>

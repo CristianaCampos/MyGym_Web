@@ -18,7 +18,7 @@
     <div class="container text-center" style="margin-top: 6%">
         <p>O teu plano de treino diário é</p>
         <h4>PLANO TREINO</h4><br>
-        <a href="../MenuPages/planosTreino.php"><button type="button" class="btn btnInicio btnIniciarSessao" style="width: 15%">Ir</button></a>
+        <a href="../MenuPages/planosTreino.php"><button type="button" class="btn btnPrincipal" style="width: 15%">Ir</button></a>
     </div>
     <?php include '../Navbar/footer.html'; ?>
 </body>

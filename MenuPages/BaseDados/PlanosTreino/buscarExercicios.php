@@ -13,11 +13,11 @@ if (!$conn) {
     die("Ligação falhou: " . mysqli_connect_error());
 }
 
-$sql = "SELECT nome FROM exercicio";
-$result = mysqli_query($conn, $sql);
+$sqlNomeExercicio = "SELECT nome FROM exercicio";
+$resultNomeExercicio = mysqli_query($conn, $sqlNomeExercicio);
 
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
+if ($resultNomeExercicio) {
+    while ($row = mysqli_fetch_assoc($resultNomeExercicio)) {
         $exercicio = $row["nome"];
         echo '<option selected>' . $exercicio . '</option>';
     }

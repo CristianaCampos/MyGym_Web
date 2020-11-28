@@ -2,22 +2,36 @@ body {
   font-family: "Poppins";
 }
 
-.btnInicio {
+.btnPrincipal {
   color: white;
   background-color: #b72727;
   border-radius: 5px;
 }
 
-.btnInicio:hover {
+.btnPrincipal:hover {
   transition-duration: 0.2s;
   background-color: transparent;
-  border: 1px white solid;
-  color: white;
-}
-
-.btnIniciarSessao:hover {
   color: #b72727;
   border: 1px #b72727 solid;
+}
+
+.btnPrincipal:disabled {
+  color: white;
+  background-color: #b72727;
+  border-radius: 5px;
+}
+
+.btnComecaAgora {
+  color: white;
+  background-color: #b72727;
+  border-radius: 5px;
+}
+
+.btnComecaAgora:hover {
+  transition-duration: 0.2s;
+  background-color: transparent;
+  color: white;
+  border: 1px white solid;
 }
 
 .containerList {

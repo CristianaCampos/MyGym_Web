@@ -2,8 +2,8 @@
 
 session_start();
 
-$nome = $_POST["nomeExercicio"];
-$zonaMuscular = $_POST["zonaMuscular"];
+$nomeExercicio = $_GET["nomeExercicio"];
+$zonaMuscular = $_GET["zonaMuscular"];
 
 $servername = "localhost";
 $username = "root";
@@ -18,14 +18,14 @@ if (!$conn) {
     die("Ligação falhou: " . mysqli_connect_error());
 }
 
-$sql2 = "SELECT id FROM exercicio WHERE nome='" . $nome . "'";
-$result2 = mysqli_query($conn, $sql2);
+$sqlIdExercicio = "SELECT id FROM exercicio WHERE nome='" . $nomeExercicio . "'";
+$resultIdExercicio = mysqli_query($conn, $sqlIdExercicio);
 
-if (mysqli_num_rows($result2) == 0) {
-    $sql = "INSERT INTO exercicio(nome, zonaMuscular) VALUES ('" . $nome . "', '" . $zonaMuscular . "')";
-    $result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($resultIdExercicio) == 0) {
+    $sqlInserirExercicio = "INSERT INTO exercicio(nome, zonaMuscular) VALUES ('" . $nomeExercicio . "', '" . $zonaMuscular . "')";
+    $resultInserirExercicio = mysqli_query($conn, $sqlInserirExercicio);
 
-    if (mysqli_num_rows($result2) == 0) {
+    if (mysqli_num_rows($resultInserirExercicio) == 0) {
         header("Location: ../../exercicios.php");
     } else {
         header("Location: ../../../ErrorPages/Error.html");

@@ -22,16 +22,16 @@ if (!$conn) {
     die("Ligação falhou: " . mysqli_connect_error());
 }
 
-$sql2 = "SELECT id FROM utilizador WHERE nome='" . $sessionName . "'";
-$result2 = mysqli_query($conn, $sql2);
+$sqlIdUtilizador = "SELECT id FROM utilizador WHERE nome='" . $sessionName . "'";
+$resultIdUtilizador = mysqli_query($conn, $sqlIdUtilizador);
 
-if (mysqli_num_rows($result2) > 0) {
-    $sql = "UPDATE utilizador
+if (mysqli_num_rows($resultIdUtilizador) > 0) {
+    $sqlUpdateUtilizador = "UPDATE utilizador
     SET nome = '$nome', email = '$email', contacto = '$contacto', pass = '$userPassword'
     WHERE nome = '$nomeUtilizador'";
-    $result = mysqli_query($conn, $sql);
+    $resultUpdateUtilizador = mysqli_query($conn, $sqlUpdateUtilizador);
 
-    if ($result) {
+    if ($resultUpdateUtilizador) {
         $_SESSION["nome"] = $nome;
         header("Location: ../../perfil.php");
     } else {

@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Css/styles.css?v=1.3">
+    <link rel="stylesheet" href="../Css/styles.css?v=1.0">
     <script src="https://kit.fontawesome.com/8d30e20f45.js" crossorigin="anonymous"></script>
     <link rel="icon" href="../imgs/SVG/icon.svg">
 
@@ -47,7 +47,7 @@
                     <div class="input-group mb-3">
                         <input type="password" class="form-control" name="passLogin" id="passwordLogin" placeholder="password">
                     </div>
-                    <br><button type="submit" action="../StartPage/startPage.php" id="btnIniciarSessao" class="btn btnInicio btnIniciarSessao btn-lg float-right w-100">Iniciar Sessão</button>
+                    <br><button type="submit" action="../StartPage/startPage.php" id="btnIniciarSessao" class="btn btnPrincipal btn-lg float-right w-100">Iniciar Sessão</button>
                 </form>
             </div>
             <div class="col-sm">
@@ -63,7 +63,7 @@
                         <li>Cria as tuas Aulas de Grupo</li>
                         <li>Acompanha os teus Dados Corporais</li>
                     </ul>
-                    <br><button type="button" class="btn btnInicio btnIniciarSessao btn-lg float-right w-100" onclick="mostrarRegisto()">Criar Conta</button>
+                    <br><button type="button" class="btn btnPrincipal btn-lg float-right w-100" onclick="mostrarRegisto()">Criar Conta</button>
                 </div>
                 <form method="POST" action="BaseDados/createAccount.php" role="login">
                     <div id="registarConta" style="display: none;">
@@ -88,7 +88,7 @@
                         <div class="input-group mb-3">
                             <input type="password" class="form-control" name="passCriar" id="passwordCriar" placeholder="password">
                         </div>
-                        <br><button type="submit" action="../StartPage/startPage.php" class="btn btnInicio btnIniciarSessao btn-lg float-right w-100">Criar Conta</button>
+                        <br><button type="submit" action="../StartPage/startPage.php" class="btn btnPrincipal btn-lg float-right w-100">Criar Conta</button>
                     </div>
                 </form>
             </div>

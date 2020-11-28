@@ -14,6 +14,22 @@ session_start();
     <link rel="stylesheet" href="../Css/styles.css?v=1.6">
     <script src="https://kit.fontawesome.com/8d30e20f45.js" crossorigin="anonymous"></script>
     <link rel="icon" href="../imgs/SVG/icon.svg">
+
+    <script>
+        function criarAulaGrupo() {
+            var nomeAula = document.getElementById("nomeAula").value;
+            var diaSemana = document.getElementById("diaSemana").value;
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    this.responseText;
+                }
+            };
+            xhttp.open("GET", "BaseDados/AulasGrupo/criarAulaGrupo.php?nomeAula=" + nomeAula + "&diaSemana=" + diaSemana, true);
+            xhttp.send();
+        }
+    </script>
 </head>
 
 <body>
@@ -74,26 +90,24 @@ session_start();
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="BaseDados/AulasGrupo/criarAulaGrupo.php">
-                        <label for="nomeAulaGrupo">Nome Aula Grupo</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="nomeAulaGrupo" id="nomeAulaGrupo" placeholder="nome aula grupo">
-                        </div>
-                        <label for="diaSemana">Dia da Semana</label>
-                        <div class="input-group mb-3">
-                            <select id="diaSemana" name="diaSemana" class="form-control">
-                                <option selected disabled>Escolhe...</option>
-                                <option>Segunda-Feira</option>
-                                <option>Terça-Feira</option>
-                                <option>Quarta-Feira</option>
-                                <option>Quinta-Feira</option>
-                                <option>Sexta-Feira</option>
-                                <option>Sábado</option>
-                                <option>Domingo</option>
-                            </select>
-                        </div>
-                        <br><button type="submit" action="../../aulasGrupo.php" id="btnIniciarSessao" class="btn btnInicio btnIniciarSessao btn-lg w-100">Criar</button>
-                    </form>
+                    <label for="nomeAulaGrupo">Nome Aula Grupo</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="nomeAulaGrupo" id="nomeAulaGrupo" placeholder="nome aula grupo">
+                    </div>
+                    <label for="diaSemana">Dia da Semana</label>
+                    <div class="input-group mb-3">
+                        <select id="diaSemana" name="diaSemana" class="form-control">
+                            <option selected disabled>Escolhe...</option>
+                            <option>Segunda-Feira</option>
+                            <option>Terça-Feira</option>
+                            <option>Quarta-Feira</option>
+                            <option>Quinta-Feira</option>
+                            <option>Sexta-Feira</option>
+                            <option>Sábado</option>
+                            <option>Domingo</option>
+                        </select>
+                    </div>
+                    <br><button type="submit" onclick="criarAulaGrupo()" class="btn btnPrincipal btn-lg w-100">Criar</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btnClose" data-dismiss="modal">Close</button>

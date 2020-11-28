@@ -18,25 +18,26 @@ if (!$conn) {
     die("Ligação falhou: " . mysqli_connect_error());
 }
 
-$sql2 = "SELECT id FROM utilizador WHERE nome='" . $sessionName . "'";
-$result2 = mysqli_query($conn, $sql2);
+$sqlIdUtilizador = "SELECT id FROM utilizador WHERE nome='" . $sessionName . "'";
+$resultIdUtilizador = mysqli_query($conn, $sqlIdUtilizador);
 
-if ($result2) {
-    if ($row2 = mysqli_fetch_assoc($result2)) {
-        $idUser = $row2["id"];
+if ($resultIdUtilizador) {
+    if ($rowIdUtilizador = mysqli_fetch_assoc($resultIdUtilizador)) {
+        $idUser = $rowIdUtilizador["id"];
     }
 }
 
-$sql = "SELECT peso, altura, massaMagra, massaGorda, massaHidrica FROM dadoscorporais WHERE idUtilizador=$idUser";
-$result = mysqli_query($conn, $sql);
+$sqlDadosCorporais = "SELECT peso, altura, massaMagra, massaGorda, massaHidrica, IMC FROM dadoscorporais WHERE idUtilizador=$idUser";
+$resultDadosCorporais = mysqli_query($conn, $sqlDadosCorporais);
 
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
+if ($resultDadosCorporais) {
+    while ($row = mysqli_fetch_assoc($resultDadosCorporais)) {
         $peso = $row["peso"];
         $altura = $row["altura"];
         $mm = $row["massaMagra"];
         $mg = $row["massaGorda"];
         $mh = $row["massaHidrica"];
+        $imc = $row["IMC"];
 
         if ($var == "peso")
             echo $peso;
@@ -48,6 +49,8 @@ if ($result) {
             echo $mg;
         else if ($var == "mh")
             echo $mh;
+        else if ($var == "imc")
+            echo $imc;
     }
 } else {
     header("Location: ../../../ErrorPages/Error.html");

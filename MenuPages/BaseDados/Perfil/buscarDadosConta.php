@@ -18,11 +18,11 @@ if (!$conn) {
     die("Ligação falhou: " . mysqli_connect_error());
 }
 
-$sql = "SELECT nome, nomeUtilizador, email, contacto, pass FROM utilizador WHERE nome='$sessionName'";
-$result = mysqli_query($conn, $sql);
+$sqlDadosUtilizador = "SELECT nome, nomeUtilizador, email, contacto, pass FROM utilizador WHERE nome='$sessionName'";
+$resultDadosUtilizador = mysqli_query($conn, $sqlDadosUtilizador);
 
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
+if ($resultDadosUtilizador) {
+    while ($row = mysqli_fetch_assoc($resultDadosUtilizador)) {
         $nome = $row["nome"];
         $nomeUtilizador = $row["nomeUtilizador"];
         $email = $row["email"];

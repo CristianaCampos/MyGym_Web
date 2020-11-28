@@ -7,7 +7,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../Css/styles.css?v=1.3">
+  <link rel="stylesheet" href="../Css/styles.css?v=1.0">
   <script src="https://kit.fontawesome.com/8d30e20f45.js" crossorigin="anonymous"></script>
   <link rel="icon" href="../imgs/SVG/icon.svg">
 </head>
@@ -25,11 +25,11 @@
     <div class="container-fluid h-50">
       <div class="row h-100 align-items-center">
         <div class="col-md-6 text-center text-white">
-          <h1 class="font-weight-light">Manage your workout routine</h1>
+          <h1 class="font-weight-bold">Manage your workout routine</h1>
           <p class="lead">Descobre uma forma mais
             engraçada de treinar <br>e assim
             terás sucesso.</p>
-          <button type="button" id="btnComecaAgora" class="btn btnInicio">Começa Agora!</button>
+          <button type="button" id="btnComecaAgora" class="btn btnComecaAgora">Começa Agora!</button>
         </div>
         <div class="col-md-6">
           <img src="../imgs/PNG/imgBanner.png" class="w-100 h-100 ml-3" style="margin-left: 100px" />
@@ -38,7 +38,7 @@
     </div>
   </header>
   <div class="container">
-    <div class="row h-50 align-items-center">
+    <div class="row mt-n4 h-50 align-items-center" style="margin-bottom: -5%">
       <div class="col-lg-4 text-center">
         <img src="../imgs/SVG/iconPlanosTreino.svg" width="30%" /><br><br>
         <p>Cria o teu <b>plano de treino</b>!</p>
@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  <?php include '../Navbar/footer.html' ?>
+  <?php include '../Navbar/footer_notfixed.html' ?>
 </body>
 
 </html>

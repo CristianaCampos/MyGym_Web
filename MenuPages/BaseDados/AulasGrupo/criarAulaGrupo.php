@@ -2,8 +2,8 @@
 
 session_start();
 
-$nome = $_POST["nomeAulaGrupo"];
-$diaSemana = $_POST["diaSemana"];
+$nomeAula = $_GET["nomeAula"];
+$diaSemana = $_GET["diaSemana"];
 
 $servername = "localhost";
 $username = "root";
@@ -18,14 +18,14 @@ if (!$conn) {
     die("Ligação falhou: " . mysqli_connect_error());
 }
 
-$sql2 = "SELECT id FROM aulagrupo WHERE nome='" . $nome . "'";
-$result2 = mysqli_query($conn, $sql2);
+$sqlIdAula = "SELECT id FROM aulagrupo WHERE nome='" . $nomeAula . "'";
+$resultIdAula = mysqli_query($conn, $sqlIdAula);
 
-if (mysqli_num_rows($result2) == 0) {
-    $sql = "INSERT INTO aulagrupo(nome, diaSemana) VALUES ('" . $nome . "', '" . $diaSemana . "')";
-    $result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($resultIdAula) == 0) {
+    $sqlInserirAula = "INSERT INTO aulagrupo(nome, diaSemana) VALUES ('" . $nomeAula . "', '" . $diaSemana . "')";
+    $resultInserirAula = mysqli_query($conn, $sqlInserirAula);
 
-    if (mysqli_num_rows($result2) == 0) {
+    if (mysqli_num_rows($resultInserirAula) == 0) {
         header("Location: ../../aulasGrupo.php");
     } else {
         header("Location: ../../../ErrorPages/Error.html");

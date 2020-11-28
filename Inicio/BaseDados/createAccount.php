@@ -29,6 +29,7 @@ if (mysqli_num_rows($result2) == 0) {
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result2) == 0) {
+        $_SESSION["nome"] = $nome;
         header("Location: ../../StartPage/startPage.php");
     } else {
         header("Location: ../../ErrorPages/Error.html");

@@ -157,7 +157,7 @@ session_start();
                     </div>
                     <div class="input-group mb-3" id="createSelect">
                     </div>
-                    <br><button type="submit" action="../../planosTreino.php" id="btnCriar" class="btn btnInicio btnIniciarSessao btn-lg w-100" onclick="criarPlanoTreino()">Criar</button>
+                    <br><button type="submit" onclick="criarPlanoTreino()" class="btn btnPrincipal btn-lg w-100">Criar</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btnClose" data-dismiss="modal">Close</button>

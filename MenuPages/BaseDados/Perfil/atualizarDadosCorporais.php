@@ -9,6 +9,7 @@ $altura = $_GET["altura"];
 $mm = $_GET["mm"];
 $mg = $_GET["mg"];
 $mh = $_GET["mh"];
+$imc = $_GET["imc"];
 
 $servername = "localhost";
 $username = "root";
@@ -23,32 +24,32 @@ if (!$conn) {
     die("Ligação falhou: " . mysqli_connect_error());
 }
 
-$sql = "SELECT id FROM utilizador WHERE nome='" . $sessionName . "'";
-$result = mysqli_query($conn, $sql);
+$sqlIdUtilizador = "SELECT id FROM utilizador WHERE nome='" . $sessionName . "'";
+$resultIdUtilizador = mysqli_query($conn, $sqlIdUtilizador);
 
-if ($result) {
-    if ($row = mysqli_fetch_assoc($result)) {
-        $idUser = $row["id"];
+if ($resultIdUtilizador) {
+    if ($rowIdUtilizador = mysqli_fetch_assoc($resultIdUtilizador)) {
+        $idUser = $rowIdUtilizador["id"];
 
-        $sql2 = "SELECT id FROM dadoscorporais WHERE idUtilizador= $idUser";
-        $result2 = mysqli_query($conn, $sql2);
+        $sqlIdDadosCorporais = "SELECT id FROM dadoscorporais WHERE idUtilizador= $idUser";
+        $resultIdDadosCorporais = mysqli_query($conn, $sqlIdDadosCorporais);
 
-        if (mysqli_num_rows($result2) > 0) {
-            $sql3 = "UPDATE dadoscorporais
-            SET peso = $peso, altura = $email, massaMagra = $mm, massaGorda = $mg, massaHidrica = $mh
+        if (mysqli_num_rows($resultIdDadosCorporais) > 0) {
+            $sqlUpdateDadosCorporais = "UPDATE dadoscorporais
+            SET peso = $peso, altura = $altura, massaMagra = $mm, massaGorda = $mg, massaHidrica = $mh, imc = $imc
             WHERE idUtilizador = $idUser";
-            $result3 = mysqli_query($conn, $sql3);
+            $resultUpdateDadosCorporais = mysqli_query($conn, $sqlUpdateDadosCorporais);
 
-            if ($result3) {
+            if ($resultUpdateDadosCorporais) {
                 header("Location: ../../perfil.php");
             } else {
                 header("Location: ../../../ErrorPages/Error.html");
             }
         } else {
-            $sql3 = "INSERT INTO dadoscorporais(idUtilizador, peso, altura, massaMagra, massaGorda, massaHidrica) VALUES ($idUser, $peso, $altura, $mm, $mg, $mh)";
-            $result3 = mysqli_query($conn, $sql3);
+            $sqlInserirDadosCorporais = "INSERT INTO dadoscorporais(idUtilizador, peso, altura, massaMagra, massaGorda, massaHidrica, IMC) VALUES ($idUser, $peso, $altura, $mm, $mg, $mh, $imc)";
+            $resultInserirDadosCorporais = mysqli_query($conn, $sqlInserirDadosCorporais);
 
-            if ($result3) {
+            if ($resultInserirDadosCorporais) {
                 header("Location: ../../perfil.php");
             } else {
                 header("Location: ../../../ErrorPages/Error.html");
