@@ -1,0 +1,66 @@
+body {
+  font-family: "Poppins";
+}
+
+.btnInicio {
+  color: white;
+  background-color: #b72727;
+  border-radius: 5px;
+}
+
+.btnInicio:hover {
+  transition-duration: 0.2s;
+  background-color: transparent;
+  border: 1px white solid;
+  color: white;
+}
+
+.btnIniciarSessao:hover {
+  color: #b72727;
+  border: 1px #b72727 solid;
+}
+
+.containerList {
+  background-color: #b72727;
+  color: white;
+  height: 10%;
+  border-radius: 5px;
+}
+
+.containerList:hover {
+  transition-duration: 0.2s;
+  transform: scale(1.02) perspective(1px);
+  box-shadow: 3px 3px rgba(183, 39, 39, 0.5);
+}
+
+.btnArrow {
+  color: white;
+}
+
+.btnArrow:hover {
+  transition-duration: 0.2s;
+  transform: scale(1.8) perspective(1px);
+  cursor: hand;
+}
+
+.btnPlus {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  border-radius: 50%;
+  color: white;
+}
+
+.btnPlus:hover {
+  transition-duration: 0.2s;
+  transform: scale(1.1) perspective(1px);
+  cursor: hand;
+  color: #ffffff;
+}
+
+.btnClose {
+  border: 1px rgba(0, 0, 0, 0.8) solid;
+}
+
+.buttonBorder {
+  background-color: black;
+}
