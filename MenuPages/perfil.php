@@ -165,6 +165,8 @@ session_start();
         }
 
         function carregarDadosCorporais() {
+            carregarNome();
+            carregarNomeUtilizador();
             carregarPeso();
             carregarAltura();
             carregarMM();
@@ -248,12 +250,15 @@ session_start();
             document.getElementById("imc").style.color = "white";
 
 
-            if (imc < 18.5 || imc > 25) {
+            if (imc < 18.5) {
                 document.getElementById("imc").style.backgroundColor = "red";
-                document.getElementById("imc").value = imc.toFixed(2);
+                document.getElementById("imc").value = imc.toFixed(2) + " (baixo)";
+            } else if (imc > 25) {
+                document.getElementById("imc").style.backgroundColor = "red";
+                document.getElementById("imc").value = imc.toFixed(2) + " (alto)";
             } else {
                 document.getElementById("imc").style.backgroundColor = "green";
-                document.getElementById("imc").value = imc.toFixed(2);
+                document.getElementById("imc").value = imc.toFixed(2) + " (normal)";
             }
 
         }
@@ -268,14 +273,14 @@ session_start();
         <div class="row">
             <div class="col-md-4">
                 <h2 style="margin-bottom: 30px">Perfil</h2>
-                <div type="button" class="text-left w-100" id="buttonConta" onclick="setSelected(this.id)">
-                    <i style="font-size: 20px" class="fas fa-user pr-2"></i>
-                    <label for="buttonDadosCorporais" style="cursor: hand" class="h6" onclick="disableInputsConta()">Conta</label>
-                </div>
-                <br>
                 <div type="button" class="text-left w-100" id="buttonDadosCorporais" onclick="setSelected(this.id)">
                     <i style="font-size: 20px" class="fas fa-weight pr-2"></i>
                     <label for="buttonDadosCorporais" style="cursor: hand" class="h6" onclick="disableInputsDadosCorporais()">Dados Corporais</label>
+                </div>
+                <br>
+                <div type="button" class="text-left w-100" id="buttonConta" onclick="setSelected(this.id)">
+                    <i style="font-size: 20px" class="fas fa-user pr-2"></i>
+                    <label for="buttonConta" style="cursor: hand" class="h6" onclick="disableInputsConta()">Conta</label>
                 </div>
             </div>
             <div class="col-lg-8">
@@ -285,6 +290,41 @@ session_start();
                     </div>
                     <div class="col-sm-10 mt-4">
                         <label id="nomePrincipal">meunome</label><button class="btn" onclick="enableInputs()"><i class="fas fa-edit"></i></button><br><label id="nomeUtilizadorPrincipal" class="text-muted">nomeutilizador</label>
+                    </div>
+                </div>
+                <div id="dadosCorporaisSelection" style="display: none;">
+                    <div class="row mt-4">
+                        <div class="col-sm w-50">
+                            <label>Peso (kg)</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="peso" placeholder="peso">
+                            </div>
+                            <label>Altura (cm)</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="altura" placeholder="altura">
+                            </div>
+                            <label>Massa Hídrica (%)</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="mh" placeholder="massa hidrica">
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <label>Massa Gorda (%)</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="mg" placeholder="massa gorda">
+                            </div>
+                            <label>Massa Magra (kg)</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="mm" placeholder="massa magra">
+                            </div>
+                            <label>Índice de Massa Corporal (IMC)</label>
+                            <div class="input-group mb-3">
+                                <input disabled type="text" class="form-control" id="imc" placeholder="IMC">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" onclick="calcularIMC(); atualizarDadosCorporais();" id="btnAtualizarDadosCorporais" class="btn btnPrincipal w-50">Atualizar</button>
                     </div>
                 </div>
                 <div id="contaSelection" style="display: none;">
@@ -312,41 +352,6 @@ session_start();
                     </div>
                     <div class="d-flex justify-content-center">
                         <button type="submit" onclick="atualizarDadosConta()" id="btnAtualizarDadosConta" class="btn btnPrincipal w-50">Atualizar</button>
-                    </div>
-                </div>
-                <div id="dadosCorporaisSelection" style="display: none;">
-                    <div class="row mt-4">
-                        <div class="col-sm w-50">
-                            <label>Peso (kg)</label>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="peso" placeholder="peso">
-                            </div>
-                            <label>Altura (cm)</label>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="altura" placeholder="altura">
-                            </div>
-                            <label>Massa Hídrica</label>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="mh" placeholder="massa hidrica">
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <label>Massa Gorda</label>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="mg" placeholder="massa gorda">
-                            </div>
-                            <label>Massa Magra</label>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="mm" placeholder="massa magra">
-                            </div>
-                            <label>Índice de Massa Corporal</label>
-                            <div class="input-group mb-3">
-                                <input disabled type="text" class="form-control" id="imc" placeholder="IMC">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <button type="submit" onclick="calcularIMC(); atualizarDadosCorporais();" id="btnAtualizarDadosCorporais" class="btn btnPrincipal w-50">Atualizar</button>
                     </div>
                 </div>
             </div>

@@ -11,12 +11,52 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Css/styles.css?v=1.7">
+    <link rel="stylesheet" href="../Css/styles.css?v=2.0">
     <script src="https://kit.fontawesome.com/8d30e20f45.js" crossorigin="anonymous"></script>
     <link rel="icon" href="../imgs/SVG/icon.svg">
 
     <script>
+        var idPlano = 0;
         var count = 1;
+
+        function resetInputs() {
+            document.getElementById("nomePlano").value = "";
+        }
+
+        function detailsNome(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("nome-modalDetails").innerHTML = this.responseText;
+                    detailsDiaSemana(id);
+                }
+            };
+            xhttp.open("GET", "BaseDados/PlanosTreino/details.php?id=" + id + "&var=nome", true);
+            xhttp.send();
+        }
+
+        function detailsDiaSemana(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("diaSemana-modalDetails").innerHTML = this.responseText;
+                    detailsExercicios(id);
+                }
+            };
+            xhttp.open("GET", "BaseDados/PlanosTreino/details.php?id=" + id + "&var=diaSemana", true);
+            xhttp.send();
+        }
+
+        function detailsExercicios(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("exercicio-modalDetails").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "BaseDados/PlanosTreino/details.php?id=" + id + "&var=exercicio", true);
+            xhttp.send();
+        }
 
         function createSelects() {
             count++;
@@ -25,7 +65,7 @@ session_start();
         }
 
         function carregarExercicios() {
-            document.getElementById("nomePlano").value = "teste";
+            document.getElementById("nomePlano").value = "";
 
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
@@ -38,7 +78,15 @@ session_start();
         }
 
         function carregarPlanosTreino() {
-            alert("olá");
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("listaPlanos").innerHTML = null;
+                    document.getElementById("listaPlanos").innerHTML += this.responseText;
+                }
+            };
+            xhttp.open("GET", "BaseDados/PlanosTreino/carregarPlanosTreino.php", true);
+            xhttp.send();
         }
 
         function criarPlanoTreino() {
@@ -57,11 +105,27 @@ session_start();
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    this.responseText;
+                    carregarPlanosTreino();
                 }
             };
             xhttp.open("GET", "BaseDados/PlanosTreino/criarPlanoTreino.php?nomePlano=" + nomePlano + "&diaSemana=" + diaSemana + "&exercicios=" + exercicios + "&series=" + series + "&reps=" + reps, true);
             xhttp.send();
+        }
+
+        function apagarPlano() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    alert(this.responseText);
+                    carregarPlanosTreino();
+                }
+            };
+            xhttp.open("GET", "BaseDados/PlanosTreino/apagarPlanoTreino.php?id=" + idPlano, true);
+            xhttp.send();
+        }
+
+        function guardarID(id) {
+            idPlano = id;
         }
     </script>
 </head>
@@ -76,41 +140,12 @@ session_start();
                 <h2>Planos de Treino</h2>
             </div>
             <div class="col-sm-6">
-                <button type="button" class="btn btnPlus float-right" data-toggle="modal" data-target="#myModal">
+                <button type="button" onclick="resetInputs()" class="btn btnPlus float-right" data-toggle="modal" data-target="#myModal">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
         </div>
-        <div class="container containerList mt-3">
-            <div class="row">
-                <div class="col-xl-4">
-                    <div class="mt-3">Plano 1</div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="text-center mt-3">Dia Semana</div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="float-right">
-                        <i class="fas fa-arrow-right btnArrow mt-3"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container containerList mt-3">
-            <div class="row">
-                <div class="col-xl-4">
-                    <div class="mt-3">Plano 2</div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="text-center mt-3">Dia Semana</div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="float-right">
-                        <i class="fas fa-arrow-right btnArrow mt-3"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="listaPlanos"></div>
     </div>
 
     <!-- Modal -->
@@ -130,9 +165,9 @@ session_start();
                     <label for="diaSemana">Dia da Semana</label>
                     <div class="input-group mb-3">
                         <select id="diaSemana" name="diaSemana" class="form-control">
-                            <option disabled>Escolhe...</option>
+                            <option selected disabled>Escolhe...</option>
                             <option>Segunda-Feira</option>
-                            <option selected>Terça-Feira</option>
+                            <option>Terça-Feira</option>
                             <option>Quarta-Feira</option>
                             <option>Quinta-Feira</option>
                             <option>Sexta-Feira</option>
@@ -152,15 +187,62 @@ session_start();
                         <select id="exercicio1" name="exercicio1" class="form-control">
                             <option selected disabled>Escolhe...</option>
                         </select>
-                        <input type="text" class="form-control" value="2" name="series" id="series1" placeholder="séries">
-                        <input type="text" class="form-control" value="12" name="reps" id="reps1" placeholder="reps">
+                        <input type="text" class="form-control" name="series" id="series1" placeholder="séries">
+                        <input type="text" class="form-control" name="reps" id="reps1" placeholder="reps">
                     </div>
                     <div class="input-group mb-3" id="createSelect">
                     </div>
-                    <br><button type="submit" onclick="criarPlanoTreino()" class="btn btnPrincipal btn-lg w-100">Criar</button>
+                    <br><button type="submit" onclick="criarPlanoTreino()" data-dismiss="modal" class="btn btnPrincipal btn-lg w-100">Criar</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btnClose" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Delete -->
+    <div id="myModalDelete" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Apagar Plano Treino</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    Tem a certeza que pretende apagar este registo?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="apagarPlano()">Sim</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Não</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Details -->
+    <div id="myModalDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalhes Plano Treino</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <b>Nome</b>
+                    <div id="nome-modalDetails"></div>
+                    <hr style="border-color: black;">
+                    <b>Dia Semana</b>
+                    <div id="diaSemana-modalDetails"></div>
+                    <hr style="border-color: black;">
+                    <div id="exercicio-modalDetails">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btnClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

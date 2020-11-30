@@ -18,11 +18,13 @@ if (!$conn) {
     die("Ligação falhou: " . mysqli_connect_error());
 }
 
-$sqlIdExercicio = "SELECT id FROM exercicio WHERE nome='" . $nomeExercicio . "'";
+$idUtilizador = getUserId($conn);
+
+$sqlIdExercicio = "SELECT id FROM exercicio WHERE nome='" . $nomeExercicio . "' AND idUtilizador= $idUtilizador";
 $resultIdExercicio = mysqli_query($conn, $sqlIdExercicio);
 
 if (mysqli_num_rows($resultIdExercicio) == 0) {
-    $sqlInserirExercicio = "INSERT INTO exercicio(nome, zonaMuscular) VALUES ('" . $nomeExercicio . "', '" . $zonaMuscular . "')";
+    $sqlInserirExercicio = "INSERT INTO exercicio(nome, zonaMuscular, idUtilizador) VALUES ('" . $nomeExercicio . "', '" . $zonaMuscular . "', " . $idUtilizador . ")";
     $resultInserirExercicio = mysqli_query($conn, $sqlInserirExercicio);
 
     if (mysqli_num_rows($resultInserirExercicio) == 0) {
@@ -32,6 +34,23 @@ if (mysqli_num_rows($resultIdExercicio) == 0) {
     }
 } else {
     header("Location: ../../../ErrorPages/Error.html");
+}
+
+function getUserId($conn)
+{
+    $nome = $_SESSION["nome"];
+    $idUser = 0;
+
+    $queryUserId = "SELECT id FROM utilizador WHERE nome='" . $nome . "'";
+    $resultUserId = mysqli_query($conn, $queryUserId);
+
+    if ($resultUserId) {
+        if ($rowUserId = mysqli_fetch_assoc($resultUserId)) {
+            $idUser = $rowUserId["id"];
+        }
+    }
+
+    return $idUser;
 }
 
 mysqli_close($conn);

@@ -11,28 +11,85 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Css/styles.css?v=1.6">
+    <link rel="stylesheet" href="../Css/styles.css?v=2.0">
     <script src="https://kit.fontawesome.com/8d30e20f45.js" crossorigin="anonymous"></script>
     <link rel="icon" href="../imgs/SVG/icon.svg">
 
     <script>
+        var idAula = 0;
+
+        function resetInputs() {
+            document.getElementById("nomeAulaGrupo").value = "";
+        }
+
+
+        function detailsNome(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("nome-modalDetails").innerHTML = this.responseText;
+                    detailsDiaSemana(id);
+                }
+            };
+            xhttp.open("GET", "BaseDados/AulasGrupo/details.php?id=" + id + "&var=nome", true);
+            xhttp.send();
+        }
+
+        function detailsDiaSemana(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("diaSemana-modalDetails").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "BaseDados/AulasGrupo/details.php?id=" + id + "&var=diaSemana", true);
+            xhttp.send();
+        }
+
+        function carregarAulasGrupo() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("listaAulasGrupo").innerHTML = null;
+                    document.getElementById("listaAulasGrupo").innerHTML += this.responseText;
+                }
+            };
+            xhttp.open("GET", "BaseDados/AulasGrupo/carregarAulasGrupo.php", true);
+            xhttp.send();
+        }
+
         function criarAulaGrupo() {
-            var nomeAula = document.getElementById("nomeAula").value;
+            var nomeAula = document.getElementById("nomeAulaGrupo").value;
             var diaSemana = document.getElementById("diaSemana").value;
 
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    this.responseText;
+                    carregarAulasGrupo();
                 }
             };
             xhttp.open("GET", "BaseDados/AulasGrupo/criarAulaGrupo.php?nomeAula=" + nomeAula + "&diaSemana=" + diaSemana, true);
             xhttp.send();
         }
+
+        function apagarAulaGrupo() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    carregarAulasGrupo();
+                }
+            };
+            xhttp.open("GET", "BaseDados/AulasGrupo/apagarAulaGrupo.php?id=" + idAula, true);
+            xhttp.send();
+        }
+
+        function guardarID(id) {
+            idAula = id;
+        }
     </script>
 </head>
 
-<body>
+<body onload="carregarAulasGrupo()">
     <?php
     include '../Navbar/menu.php'; ?>
 
@@ -42,47 +99,17 @@ session_start();
                 <h2>Aulas de Grupo</h2>
             </div>
             <div class="col-sm-6">
-                <button type="button" class="btn btnPlus float-right" data-toggle="modal" data-target="#myModal">
+                <button type="button" onclick="resetInputs()" class="btn btnPlus float-right" data-toggle="modal" data-target="#myModal">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
         </div>
-        <div class="container containerList mt-3">
-            <div class="row ">
-                <div class="col-xl-4">
-                    <div class="mt-3">Aula 1</div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="text-center mt-3">Dia Semana</div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="float-right">
-                        <i class="fas fa-trash-alt btnArrow mt-3"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container containerList mt-3">
-            <div class="row">
-                <div class="col-xl-4">
-                    <div class="mt-3">Aula 2</div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="text-center mt-3">Dia Semana</div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="float-right">
-                        <i class="fas fa-trash-alt btnArrow mt-3"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="listaAulasGrupo"></div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal Create -->
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -107,10 +134,52 @@ session_start();
                             <option>Domingo</option>
                         </select>
                     </div>
-                    <br><button type="submit" onclick="criarAulaGrupo()" class="btn btnPrincipal btn-lg w-100">Criar</button>
+                    <br><button type="button" onclick="criarAulaGrupo()" data-dismiss="modal" class="btn btnPrincipal btn-lg w-100">Criar</button>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btnClose" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btnClose" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Delete -->
+    <div id="myModalDelete" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Apagar Aula Grupo</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    Tem a certeza que pretende apagar este registo?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="apagarAulaGrupo()">Sim</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Não</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Details -->
+    <div id="myModalDetails" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalhes Aula Grupo</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <b>Nome</b>
+                    <div id="nome-modalDetails"></div>
+                    <hr style="border-color: black;">
+                    <b>Dia Semana</b>
+                    <div id="diaSemana-modalDetails"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btnClose" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

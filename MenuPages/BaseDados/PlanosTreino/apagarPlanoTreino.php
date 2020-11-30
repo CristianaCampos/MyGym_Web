@@ -7,6 +7,8 @@ $username = "root";
 $password = "";
 $dbname = "mygym";
 
+$id = $_GET["id"];
+
 // Efetua a ligação
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -17,16 +19,13 @@ if (!$conn) {
 
 $idUtilizador = getUserId($conn);
 
-$sqlNomeExercicio = "SELECT nome FROM exercicio WHERE idUtilizador=" . $idUtilizador;
-$resultNomeExercicio = mysqli_query($conn, $sqlNomeExercicio);
+echo $id;
+$sqlDeleteExercicioPlano = "DELETE FROM exerciciosplanotreino WHERE idPlanoTreino=$id;";
+$resultDeleteExercicioPlano = mysqli_query($conn, $sqlDeleteExercicioPlano);
 
-if ($resultNomeExercicio) {
-    while ($row = mysqli_fetch_assoc($resultNomeExercicio)) {
-        $exercicio = $row["nome"];
-        echo '<option>' . $exercicio . '</option>';
-    }
-} else {
-    header("Location: ../../../ErrorPages/Error.html");
+if ($resultDeleteExercicioPlano) {
+    $sqlDeletePlano = "DELETE FROM planotreino WHERE id=$id AND idUtilizador=$idUtilizador;";
+    $resultDeletePlano = mysqli_query($conn, $sqlDeletePlano);
 }
 
 function getUserId($conn)
@@ -45,5 +44,4 @@ function getUserId($conn)
 
     return $idUser;
 }
-
 mysqli_close($conn);

@@ -36,7 +36,7 @@ if ($resultIdUtilizador) {
 
         if (mysqli_num_rows($resultIdDadosCorporais) > 0) {
             $sqlUpdateDadosCorporais = "UPDATE dadoscorporais
-            SET peso = $peso, altura = $altura, massaMagra = $mm, massaGorda = $mg, massaHidrica = $mh, imc = $imc
+            SET peso = $peso, altura = $altura, massaMagra = $mm, massaGorda = $mg, massaHidrica = $mh, imc = '$imc'
             WHERE idUtilizador = $idUser";
             $resultUpdateDadosCorporais = mysqli_query($conn, $sqlUpdateDadosCorporais);
 
@@ -46,7 +46,7 @@ if ($resultIdUtilizador) {
                 header("Location: ../../../ErrorPages/Error.html");
             }
         } else {
-            $sqlInserirDadosCorporais = "INSERT INTO dadoscorporais(idUtilizador, peso, altura, massaMagra, massaGorda, massaHidrica, IMC) VALUES ($idUser, $peso, $altura, $mm, $mg, $mh, $imc)";
+            $sqlInserirDadosCorporais = "INSERT INTO dadoscorporais(idUtilizador, peso, altura, massaMagra, massaGorda, massaHidrica, IMC) VALUES ($idUser, $peso, $altura, $mm, $mg, $mh, '$imc')";
             $resultInserirDadosCorporais = mysqli_query($conn, $sqlInserirDadosCorporais);
 
             if ($resultInserirDadosCorporais) {

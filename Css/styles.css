@@ -1,29 +1,33 @@
+:root {
+  --colorPrincipal: #b72727;
+}
+
 body {
   font-family: "Poppins";
 }
 
 .btnPrincipal {
   color: white;
-  background-color: #b72727;
+  background-color: var(--colorPrincipal);
   border-radius: 5px;
 }
 
 .btnPrincipal:hover {
   transition-duration: 0.2s;
   background-color: transparent;
-  color: #b72727;
-  border: 1px #b72727 solid;
+  color: var(--colorPrincipal);
+  border: 1px var(--colorPrincipal) solid;
 }
 
 .btnPrincipal:disabled {
   color: white;
-  background-color: #b72727;
+  background-color: var(--colorPrincipal);
   border-radius: 5px;
 }
 
 .btnComecaAgora {
   color: white;
-  background-color: #b72727;
+  background-color: var(--colorPrincipal);
   border-radius: 5px;
 }
 
@@ -35,7 +39,7 @@ body {
 }
 
 .containerList {
-  background-color: #b72727;
+  background-color: var(--colorPrincipal);
   color: white;
   height: 10%;
   border-radius: 5px;
@@ -45,6 +49,7 @@ body {
   transition-duration: 0.2s;
   transform: scale(1.02) perspective(1px);
   box-shadow: 3px 3px rgba(183, 39, 39, 0.5);
+  cursor: pointer;
 }
 
 .btnArrow {
@@ -73,6 +78,11 @@ body {
 
 .btnClose {
   border: 1px rgba(0, 0, 0, 0.8) solid;
+}
+
+.btnClose:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
 }
 
 .buttonBorder {

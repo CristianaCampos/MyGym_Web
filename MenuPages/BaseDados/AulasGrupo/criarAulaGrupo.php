@@ -18,20 +18,39 @@ if (!$conn) {
     die("Ligação falhou: " . mysqli_connect_error());
 }
 
-$sqlIdAula = "SELECT id FROM aulagrupo WHERE nome='" . $nomeAula . "'";
+$idUtilizador = getUserId($conn);
+
+$sqlIdAula = "SELECT id FROM aulagrupo WHERE nome='" . $nomeAula . "' AND idUtilizador=" . $idUtilizador;
 $resultIdAula = mysqli_query($conn, $sqlIdAula);
 
 if (mysqli_num_rows($resultIdAula) == 0) {
-    $sqlInserirAula = "INSERT INTO aulagrupo(nome, diaSemana) VALUES ('" . $nomeAula . "', '" . $diaSemana . "')";
+    $sqlInserirAula = "INSERT INTO aulagrupo(nome, diaSemana, idUtilizador) VALUES ('" . $nomeAula . "', '" . $diaSemana . "', " . $idUtilizador . ")";
     $resultInserirAula = mysqli_query($conn, $sqlInserirAula);
 
-    if (mysqli_num_rows($resultInserirAula) == 0) {
+    if ($resultInserirAula) {
         header("Location: ../../aulasGrupo.php");
     } else {
         header("Location: ../../../ErrorPages/Error.html");
     }
 } else {
     header("Location: ../../../ErrorPages/Error.html");
+}
+
+function getUserId($conn)
+{
+    $nome = $_SESSION["nome"];
+    $idUser = 0;
+
+    $queryUserId = "SELECT id FROM utilizador WHERE nome='" . $nome . "'";
+    $resultUserId = mysqli_query($conn, $queryUserId);
+
+    if ($resultUserId) {
+        if ($rowUserId = mysqli_fetch_assoc($resultUserId)) {
+            $idUser = $rowUserId["id"];
+        }
+    }
+
+    return $idUser;
 }
 
 mysqli_close($conn);
