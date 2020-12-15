@@ -93,7 +93,7 @@ session_start();
     <?php
     include '../Navbar/menu.php'; ?>
 
-    <div class="container" style="margin-top: 6%">
+    <div class="container" style="margin-top: 7%">
         <div class="row">
             <div class="col-sm-6">
                 <h2>Aulas de Grupo</h2>

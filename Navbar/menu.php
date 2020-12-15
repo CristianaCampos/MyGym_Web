@@ -7,9 +7,9 @@
     </button>
     <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link text-white" href="../MenuPages/planosTreino.php">Planos Treino <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link text-white" href="../MenuPages/exercicios.php">Exercícios</a>
-        <a class="nav-item nav-link text-white" href="../MenuPages/aulasGrupo.php">Aulas Grupo</a>
+        <a class="nav-item nav-link text-white mr-4" href="../MenuPages/planosTreino.php">Planos Treino <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link text-white mr-4" href="../MenuPages/exercicios.php">Exercícios</a>
+        <a class="nav-item nav-link text-white mr-4" href="../MenuPages/aulasGrupo.php">Aulas Grupo</a>
         <a class="nav-item nav-link text-white" href="../MenuPages/perfil.php">Perfil</a>
       </div>
     </div>
